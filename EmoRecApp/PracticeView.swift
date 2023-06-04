@@ -53,9 +53,9 @@ struct EmotionView: View {
                     Text("🖼️ Example Images").bold()
                     ScrollView(.horizontal) {
                         LazyHStack {
-                            CustomImage(imageName: emotion + "-1")
-                            CustomImage(imageName: emotion + "-2")
-                            CustomImage(imageName: emotion + "-3")
+                            CustomImage(imageName: emotion + "-1-min")
+                            CustomImage(imageName: emotion + "-2-min")
+                            CustomImage(imageName: emotion + "-3-min")
                         }.frame(height: 200)
                     }
                     Divider()
