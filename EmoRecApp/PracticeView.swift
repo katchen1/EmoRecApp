@@ -60,7 +60,7 @@ struct EmotionView: View {
                     }
                     Divider()
                     Text("👉 Practice").bold()
-                    NavigationLink(destination: CameraView(), isActive: $toCamera) {
+                    NavigationLink(destination: UploadView(), isActive: $toCamera) {
                         Button(action: { self.toCamera = true }) {
                             RectangularImageButton(systemName: "camera")
                         }
