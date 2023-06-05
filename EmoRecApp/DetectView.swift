@@ -43,7 +43,9 @@ struct DetectView: View {
                 
                 if image != nil {
                     Button(action: {
-                        prediction = Prediction(emotion: "happiness", score: 0.9, emoji: "😀")
+                        let emotion = emotions.randomElement()
+                        let score = Double.random(in: 0.5..<1)
+                        prediction = Prediction(emotion: emotion!, score: score, emoji: emojis[emotion!]!)
                     }) {
                         RectangularTextButton(text: "😀😞😡😲🤢😱😐?")
                     }
@@ -125,12 +127,6 @@ struct Camera: UIViewControllerRepresentable {
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
-    }
-}
-
-struct UploadView: View {
-    var body: some View {
-        Text("Upload View")
     }
 }
 
