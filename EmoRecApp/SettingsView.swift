@@ -16,7 +16,7 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 10) {
                 NavigationLink(
                     destination: NotificationView(),
                     isActive: $toNotification

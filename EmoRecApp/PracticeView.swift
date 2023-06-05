@@ -12,7 +12,7 @@ struct PracticeView: View {
     
     var body: some View {
         NavigationView {
-            VStack (alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text("I want to practice expressing...")
                 NavigationToEmotion(emotion: "happiness", buttonText: "😀 Happiness", emotionView: self.emotionView)
                 NavigationToEmotion(emotion: "sadness", buttonText: "😞 Sadness", emotionView: self.emotionView)
@@ -42,7 +42,7 @@ struct EmotionView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
                 Group {
                     Text(emoji[emotion]! + " " + description[emotion]!)
                     Divider()

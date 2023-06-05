@@ -14,12 +14,41 @@ struct DetectView: View {
     @State var showCamera = false
     @State var showImagePicker = false
     @State var showCameraError = false
+    @State var prediction: Prediction?
     @State var image: UIImage?
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Capture or upload an image")
+            VStack(spacing: 10) {
+                if image == nil {
+                    Text("Capture or upload an image")
+                }
+                
+                if let prediction = prediction {
+                    HStack {
+                        Text(prediction.emoji).font(.system(size: 50))
+                        VStack(alignment: .leading) {
+                            Text(prediction.emotion.capitalized).bold()
+                            Text("Score: \(String(format: "%.0f%%", prediction.score * 100))")
+                        }
+                    }
+                }
+                
+                if let selectedImage = image {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIScreen.main.bounds.width - 35, height: UIScreen.main.bounds.width - 35)
+                }
+                
+                if image != nil {
+                    Button(action: {
+                        prediction = Prediction(emotion: "happiness", score: 0.9, emoji: "😀")
+                    }) {
+                        RectangularTextButton(text: "😀😞😡😲🤢😱😐?")
+                    }
+                }
+                
                 HStack {
                     Button(action: {
                         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -30,7 +59,7 @@ struct DetectView: View {
                     }) {
                         CircularButton(systemName: "camera")
                     }.sheet(isPresented: $showCamera, onDismiss: loadImage) {
-                        Camera()
+                        Camera(image: self.$image)
                     }
                     Button(action: { self.showImagePicker = true }) {
                         CircularButton(systemName: "photo.on.rectangle")
@@ -52,13 +81,15 @@ struct DetectView: View {
     
     func loadImage() {
         guard let selectedImage = image else { return }
-        // Process the selected image here
-        print(selectedImage.size)
+        // Process the selected image
+        self.prediction = nil;
+        self.image = selectedImage;
     }
 }
 
 struct Camera: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentationMode
+    @Binding var image: UIImage?
 
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -83,7 +114,11 @@ struct Camera: UIViewControllerRepresentable {
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            // Handle the captured image here if needed
+            if let uiImage = info[.editedImage] as? UIImage {
+                parent.image = uiImage
+            } else if let uiImage = info[.originalImage] as? UIImage {
+                parent.image = uiImage
+            }
             parent.presentationMode.wrappedValue.dismiss()
         }
 
@@ -118,7 +153,6 @@ struct ImagePicker: UIViewControllerRepresentable {
             } else if let uiImage = info[.originalImage] as? UIImage {
                 image = uiImage
             }
-            
             presentationMode.dismiss()
         }
         
@@ -142,4 +176,10 @@ struct ImagePicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
         // No need to update the view controller
     }
+}
+
+struct Prediction {
+    let emotion: String
+    let score: Double
+    let emoji: String
 }
