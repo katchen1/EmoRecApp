@@ -18,66 +18,63 @@ struct DetectView: View {
     @State var image: UIImage?
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 10) {
-                if image == nil {
-                    Text("Capture or upload an image")
-                }
-                
-                if let prediction = prediction {
-                    HStack {
-                        Text(prediction.emoji).font(.system(size: 50))
-                        VStack(alignment: .leading) {
-                            Text(prediction.emotion.capitalized).bold()
-                            Text("Score: \(String(format: "%.0f%%", prediction.score * 100))")
-                        }
-                    }
-                }
-                
-                if let selectedImage = image {
-                    Image(uiImage: selectedImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: UIScreen.main.bounds.width - 35, height: UIScreen.main.bounds.width - 35)
-                }
-                
-                if image != nil {
-                    Button(action: {
-                        let emotion = emotions.randomElement()
-                        let score = Double.random(in: 0.5..<1)
-                        prediction = Prediction(emotion: emotion!, score: score, emoji: emojis[emotion!]!)
-                    }) {
-                        RectangularTextButton(text: "😀😞😡😲🤢😱😐?")
-                    }
-                }
-                
+        VStack(spacing: 10) {
+            if image == nil {
+                Text("Capture or upload an image")
+            }
+            
+            if let prediction = prediction {
                 HStack {
-                    Button(action: {
-                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                            self.showCamera = true
-                        } else {
-                            self.showCameraError = true
-                        }
-                    }) {
-                        CircularButton(systemName: "camera")
-                    }.sheet(isPresented: $showCamera, onDismiss: loadImage) {
-                        Camera(image: self.$image)
-                    }
-                    Button(action: { self.showImagePicker = true }) {
-                        CircularButton(systemName: "photo.on.rectangle")
-                    }.sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
-                        ImagePicker(image: self.$image)
+                    Text(prediction.emoji).font(.system(size: 50))
+                    VStack(alignment: .leading) {
+                        Text(prediction.emotion.capitalized).bold()
+                        Text("Score: \(String(format: "%.0f%%", prediction.score * 100))")
                     }
                 }
             }
-            .navigationBarTitle("Detect Emotion")
-            .alert(isPresented: $showCameraError) {
-                Alert(
-                    title: Text("Camera Not Available"),
-                    message: Text("The camera is not available on this device."),
-                    dismissButton: .default(Text("OK"))
-                )
+            
+            if let selectedImage = image {
+                Image(uiImage: selectedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width - 35, height: UIScreen.main.bounds.width - 35)
             }
+            
+            if image != nil {
+                Button(action: {
+                    let emotion = emotions.randomElement()
+                    let score = Double.random(in: 0.5..<1)
+                    prediction = Prediction(emotion: emotion!, score: score, emoji: emojis[emotion!]!)
+                }) {
+                    RectangularTextButton(text: "😀😞😡😲🤢😱😐?")
+                }
+            }
+            
+            HStack {
+                Button(action: {
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        self.showCamera = true
+                    } else {
+                        self.showCameraError = true
+                    }
+                }) {
+                    CircularButton(systemName: "camera")
+                }.sheet(isPresented: $showCamera, onDismiss: loadImage) {
+                    Camera(image: self.$image)
+                }
+                Button(action: { self.showImagePicker = true }) {
+                    CircularButton(systemName: "photo.on.rectangle")
+                }.sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
+                    ImagePicker(image: self.$image)
+                }
+            }
+        }
+        .alert(isPresented: $showCameraError) {
+            Alert(
+                title: Text("Camera Not Available"),
+                message: Text("The camera is not available on this device."),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
     
