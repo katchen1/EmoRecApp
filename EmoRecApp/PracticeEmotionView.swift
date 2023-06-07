@@ -42,6 +42,14 @@ struct PracticeEmotionView: View {
                     .frame(width: UIScreen.main.bounds.width - 35, height: UIScreen.main.bounds.width - 35)
             }
             
+            if let prediction = prediction {
+                if prediction.emotion == self.emotion {
+                    Text("You got it!").multilineTextAlignment(.center)
+                } else {
+                    Text("Not quite! You expressed " + prediction.emotion + " rather than " + self.emotion + ". Try again.").multilineTextAlignment(.center)
+                }
+            }
+            
             Button(action: {
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
                     self.showCamera = true
