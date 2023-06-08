@@ -16,6 +16,8 @@
 		47EC4DA32A2CD506003F8CFD /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EC4DA22A2CD506003F8CFD /* PracticeView.swift */; };
 		47EC4DA52A2CD513003F8CFD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EC4DA42A2CD513003F8CFD /* SettingsView.swift */; };
 		47F2C8832A2DB710008AC2AF /* PracticeEmotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F2C8822A2DB710008AC2AF /* PracticeEmotionView.swift */; };
+		47F2C8852A312CA4008AC2AF /* densenetmodel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 47F2C8842A312CA4008AC2AF /* densenetmodel.mlmodel */; };
+		47F2C8882A312D19008AC2AF /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F2C8872A312D19008AC2AF /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,9 @@
 		47EC4DA22A2CD506003F8CFD /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
 		47EC4DA42A2CD513003F8CFD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		47F2C8822A2DB710008AC2AF /* PracticeEmotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeEmotionView.swift; sourceTree = "<group>"; };
+		47F2C8842A312CA4008AC2AF /* densenetmodel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = densenetmodel.mlmodel; path = ../../../../Downloads/densenetmodel.mlmodel; sourceTree = "<group>"; };
+		47F2C8862A312CC5008AC2AF /* densenetmodel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = densenetmodel.mlmodel; sourceTree = "<group>"; };
+		47F2C8872A312D19008AC2AF /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +73,9 @@
 				47EC4DA22A2CD506003F8CFD /* PracticeView.swift */,
 				47F2C8822A2DB710008AC2AF /* PracticeEmotionView.swift */,
 				47EC4DA42A2CD513003F8CFD /* SettingsView.swift */,
+				47F2C8872A312D19008AC2AF /* Model.swift */,
 				47EC4D942A2CD4C4003F8CFD /* Assets.xcassets */,
+				47F2C8862A312CC5008AC2AF /* densenetmodel.mlmodel */,
 				47EC4D962A2CD4C4003F8CFD /* Preview Content */,
 			);
 			path = EmoRecApp;
@@ -77,6 +84,7 @@
 		47EC4D962A2CD4C4003F8CFD /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				47F2C8842A312CA4008AC2AF /* densenetmodel.mlmodel */,
 				47EC4D972A2CD4C4003F8CFD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -152,10 +160,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F2C8882A312D19008AC2AF /* Model.swift in Sources */,
 				47F2C8832A2DB710008AC2AF /* PracticeEmotionView.swift in Sources */,
 				47EC4D9F2A2CD4E5003F8CFD /* DetectView.swift in Sources */,
 				47EC4DA32A2CD506003F8CFD /* PracticeView.swift in Sources */,
 				47EC4D932A2CD4C3003F8CFD /* ContentView.swift in Sources */,
+				47F2C8852A312CA4008AC2AF /* densenetmodel.mlmodel in Sources */,
 				47EC4DA52A2CD513003F8CFD /* SettingsView.swift in Sources */,
 				47EC4D912A2CD4C3003F8CFD /* EmoRecAppApp.swift in Sources */,
 				47EC4DA12A2CD4F3003F8CFD /* Utils.swift in Sources */,
