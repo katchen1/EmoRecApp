@@ -6,6 +6,8 @@
 //
 import SwiftUI
 import UIKit
+import CoreML
+import CoreImage
 
 struct PracticeEmotionView: View {
     @State var toCamera = false
@@ -13,10 +15,18 @@ struct PracticeEmotionView: View {
     @State var showCameraError = false
     @State var prediction: Prediction?
     @State var image: UIImage?
+    @State var model: densenetmodel
+    @State var multiArray: MLMultiArray?
     var emotion = ""
     
     init(emotion: String) {
         self.emotion = emotion
+        do {
+            let configuration = MLModelConfiguration()
+            model = try densenetmodel(configuration: configuration)
+        } catch {
+            fatalError("Failed to create densenetmodel: \(error)")
+        }
     }
     
     var body: some View {
@@ -42,11 +52,18 @@ struct PracticeEmotionView: View {
                     .frame(width: UIScreen.main.bounds.width - 35, height: UIScreen.main.bounds.width - 35)
             }
             
+            if multiArray != nil {
+                HStack(spacing: 10) {
+                    Text("[DEBUG] Model input:").foregroundColor(.gray)
+                    MultiArrayImageView(multiArray: multiArray!)
+                }
+            }
+            
             if let prediction = prediction {
                 if prediction.emotion == self.emotion {
                     Text("You got it!").multilineTextAlignment(.center)
                 } else {
-                    Text("Not quite! You expressed " + prediction.emotion + " rather than " + self.emotion + ". Try again.").multilineTextAlignment(.center)
+                    Text("Not quite! You expressed " + prediction.emotion + "\nrather than " + self.emotion + ". Try again.").multilineTextAlignment(.center)
                 }
             }
             
@@ -76,9 +93,8 @@ struct PracticeEmotionView: View {
     func loadImage() {
         guard let selectedImage = image else { return }
         // Process the selected image
-        let emotion = emotions.randomElement()
-        let score = Double.random(in: 0.5..<1)
-        self.prediction = Prediction(emotion: emotion!, score: score, emoji: emojis[emotion!]!);
+        self.prediction = predictEmotion(model: model, image: image)
+        self.multiArray = prediction?.multiArray
         self.image = selectedImage;
     }
 }
